@@ -4,38 +4,49 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
-//Revisar la rubrica
+
+
+
 
 public class Main {
 
     public static void main(String[] args) throws IOException {
+        ArrayList <String> outputs = new ArrayList<>();
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        String input[];
-        String line = br.readLine();
-        int size =0;
+        int size;
+        int lines;
+        String line;
 
-        input = line.split("");
-        size = input.length;
+        lines =Integer.parseInt(br.readLine());
+        while (lines!=0){
+            line = br.readLine();
+            String[] input = line.split(" ");
+            size = input.length;
+            outputs.add(outPutSorted(input,size));
+            lines--;
+        }
 
-
-        bw.write(outPutSorted(input,size));
+        for (int i = 0; i <outputs.size() ; i++) {
+            bw.write(outputs.get(i));
+        }
 
 
         br.close();
         bw.close();
 
+
     }
 
-    public static String outPutSorted(String input[] ,int size){
+    public static String outPutSorted(String[] input, int size){
         double temp;
+        double finalAverage;
         double[] array = new double[size];
-        String out="";
+        String out;
         boolean changed = true;
-        int count=0;
-        ArrayList<Integer> average = new ArrayList<Integer>();
+        double count=0;
 
-        int averageCount=0;
+        int averageCount = array.length;
 
         for (int i = 0; i <size ; i++) {
             array[i]= Double.parseDouble(input[i]);
@@ -43,7 +54,6 @@ public class Main {
 
         for(int i =1; i<array.length && changed; i++) {
             changed=false;
-            count=0;
             for(int j=0; j<array.length-1; j++) {
                 if(array[j]>array[j+1]) {
                     temp = array[j];
@@ -51,20 +61,20 @@ public class Main {
                     array[j+1]=temp;
                     changed = true;
                     count+=1;
-                }else {
-                    count=0;
+
                 }
-
             }
-            average.add(count);
 
         }
-        for (int i = 0; i <average.size() ; i++) {
-            averageCount+=average.get(i);
+        finalAverage = Math.floor(count/(averageCount-1)*100)/100;
+
+        out=finalAverage+"-";
+
+        for (int i = 0; i <averageCount-1 ; i++) {
+           out+=array[i]+" ";
         }
-        out+=averageCount/average.size()+"-";
 
-
+        out+=array[averageCount-1 ]+"\n";
         return out;
     }
 
